@@ -26,7 +26,7 @@ format:
   - Technical Proposal: Create a manual dictionary mapping major team and league names to their respective subreddit names. Gather Reddit posts from a variety of subreddits listed in the dictionary. Establish a processing pipeline to clean and tokenize the text of these posts. Train a toxicity content classifier using a labeled dataset obtained from Kaggle. Apply the trained model to the preprocessed posts and visualize the results using a bar plot.
 
    2. 
-  - Business Goal: Determine if there is a relationship between the changes of sentiment in soccer subreddits and major events (e.g., wins, losses, transfers). 
+  - Business Goal: Determine if there is a relationship between the changes of sentiment in soccer subreddits and major events (e.g., wins, losses). 
   - Technical Proposal: Match the Reddit data with key soccer events using dates and team/player mentions. Utilize NLP techniques to assign sentiment scores to each post and comment, and label the dataset with sentiment scores. Investigate sentiment before, during, and after major events. Display sentiment trends over time with event markers.
 
   3. 
@@ -39,6 +39,10 @@ format:
 ### Business Goal 1:
 
 The study reveals varying toxicity levels in soccer club subreddits, with Atletico's having the highest, possibly due to the club's violent reputation. Toxicity peaks on weekends and mid-week, aligning with league and UEFA games, but dips during national team matches, indicating fluctuating fan behavior.
+
+### Business Goal 2:
+
+The NLP analysis proves that there are relationships between the sentiment scores of fans' comments and the match results. The analysis examines the sentiment situation of fans of Arsenal, Manchester United and Chelsea, and the results indicate that the fans of all three clubs were showing mostly negative moods, especially when the team lost or tied in a match.
 
 ### Business Goal 3:
 
@@ -86,6 +90,52 @@ with Image.open("../../data/plots/toxic_date.png") as img1:
 
 According to the lineplot, the weekly periodic pattern is obvious, which has been proved by the table of toxicity score for different days of week. Instead of club games, national team games were held from March 20 to March 28 so the toxicity is fairly low during this time.
 
+
+### Business Goal 2: Determine if there is a relationship between the changes of sentiment in soccer subreddits and major events (e.g., wins, losses).
+
+[External Data Source: Match Result Data](https://www.espn.com/soccer/team/results/_/id/359/arsenal)
+
+To implement this task, first match the Reddit data of the 3 most commented clubs with soccer matches result data using dates. Utilize NLP techniques to assign sentiment scores to each post and comment, and label the dataset with sentiment scores. Investigate sentiment before, during, and after major events. Display sentiment trends over time with event markers and align with match results to study the relationship between these two events.
+
+```{python, echo=FALSE}
+#| label: fig-polar2
+#| fig-cap: Sentiment of Arsenal Fans
+from PIL import Image
+with Image.open("../../data/plots/arsenal_match_sentiment.png") as img1:
+    display(img1)
+```
+
+This is a combined line and bar plot, showing the number of comments from Arsenal fans of positive and negative sentiments as lines, and the match result as bars (also showing the average number of positive and negative comments on matchdays). 
+
+We can draw some interesting findings from this sentiment analysis: First, on the date when there was a match for Arsenal the comments number are much higher than the days when there was no match; Second, Arsenal fans tend to have rather balanced sentiments in their comments when there is no matches, however when Arsenal lost or draw a game, the number of negative comments are always higher than the positive comments, many times much higher. Even when Arsenal won, the fans did not really show much more positivity, sometimes even more negative when a match was won. Consider Arsenal has historically not been doing great during January to March, as they lost their leading position in the premier league in this time in 2023, it is understandable that their fans are not very optimistic.
+
+
+```{python, echo=FALSE}
+#| label: fig-polar3
+#| fig-cap: Sentiment of Man United Fans
+from PIL import Image
+with Image.open("../../data/plots/man_united_match_sentiment.png") as img1:
+    display(img1)
+```
+
+This is a combined line and bar plot, showing the number of comments from Manchester United fans of positive and negative sentiments as lines, and the match result as bars (also showing the average number of positive and negative comments on matchdays).
+
+The mood of Man United fans are clearly worse than Arsenal fans. Man United played more matches than Arsenal in this period, and despite winning most of them, on only three winning days the fans showed higher positivity than negativity in the comments; The fans always posted much more negative comments when there is a draw, and even though they only lost 2 matches, they lost to Arsenal first in January, and then lost 0 to 7 against Liverpool in March where this match resulted in extreme negative sentiments on this day. Overall, Manchester United fans are high demanding on their players, and losing to their biggest rival Liverpool in a brutal fashion led to a very sad and angry day for the fans.
+
+
+```{python, echo=FALSE}
+#| label: fig-polar4
+#| fig-cap: Sentiment of Chelsea Fans
+from PIL import Image
+with Image.open("../../data/plots/chelsea_match_sentiment.png") as img1:
+    display(img1)
+```
+
+This is a combined line and bar plot, showing the number of comments from Chelsea fans of positive and negative sentiments as lines, and the match result as bars (also showing the average number of positive and negative comments on matchdays).
+
+The situation for Chelsea and their fans are the worst among the teams discussed. They lost 6 matches, tied 5 matches and only won 4, which is a not good performance by a top level team; as a result the fans are showing negative sentiment after every match, especially when they lost 3 matches in a row two times. Even for the 4 mathces they won, the fans still posted slightly less positive comments than negative ones. Chelsea was really struggling during this period, especially not being able to score, therefore their fans did have reasons to be upset about their team.
+
+
 ### Business Goal 3: Examine how soccer fans feel about the 2022 World Cup, and how their feelings evolve over time.
 
 This section analyzes sentiment over time for Reddit comments related to the 2022 World Cup. Firstly, a regex pattern, defined by key words, filters relevant posts. Then, three dummy variables were introduced to determine if posts are related to champions, players, or referees. A pre-trained sentiment analysis model was employed to categorize the sentiment of each post. Here is a resulting cross-tabulation showing the post counts across sentiment categories within each World Cup sub-topic.
@@ -103,7 +153,7 @@ df3
 A grouped barplot is also created to visualize the sentiment by category. 
 
 ```{python, echo=FALSE}
-#| label: fig-polar2
+#| label: fig-polar5
 #| fig-cap: Category-wise Sentiment Analysis about the World Cup
 from PIL import Image
 with Image.open("../../data/plots/worldcup_sentiment_count_by_category.png") as img2:
@@ -125,7 +175,7 @@ df4
 ```
 
 ```{python, echo=FALSE}
-#| label: fig-polar3
+#| label: fig-polar6
 #| fig-cap: Weekly Sentiment Post Counts and Positive Percentage about the World Cup
 from PIL import Image
 with Image.open("../../data/plots/worldcup_weekly_sentiment_post_counts.png") as img3:

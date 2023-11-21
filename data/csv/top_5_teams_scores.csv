@@ -1,0 +1,54 @@
+﻿team,opponent,date,scored,conceded,outcome,tournament
+Arsenal,Newcastle,1/3/2023,0,0,draw,Premier League
+Arsenal,Oxford Utd,1/9/2023,3,0,win,FA Cup
+Arsenal,Tottenham,1/15/2023,2,0,win,Premier League
+Arsenal,Man United,1/22/2023,3,2,win,Premier League
+Arsenal,Man City,1/27/2023,0,1,loss,FA Cup
+Arsenal,Everton,2/4/2023,0,1,loss,Premier League
+Arsenal,Brentford,2/11/2023,1,1,draw,Premier League
+Arsenal,Man City,2/15/2023,1,3,loss,Premier League
+Arsenal,Aston Villa,2/18/2023,4,2,win,Premier League
+Arsenal,Leicester City,2/25/2023,1,0,win,Premier League
+Arsenal,Everton,3/1/2023,4,0,win,Premier League
+Arsenal,Bournemouth,3/4/2023,3,2,win,Premier League
+Arsenal,Sporting CP,3/9/2023,2,2,draw,Europa League
+Arsenal,Fulham,3/12/2023,3,0,win,Premier League
+Arsenal,Sporting CP,3/16/2023,1,1,loss,Europa League
+Arsenal,Crystal Palace,3/19/2023,4,1,win,Premier League
+Man United,Bournemouth,1/3/2023,3,0,win,Premier League
+Man United,Everton,1/6/2023,3,1,win,FA Cup
+Man United,Charlton Athletic,1/10/2023,3,0,win,Carabao Cup
+Man United,Man City,1/14/2023,2,1,win,Premier League
+Man United,Crystal Palace,1/18/2023,1,1,draw,Premier League
+Man United,Arsenal,1/22/2023,2,3,loss,Premier League
+Man United,Nottingham Forest,1/25/2023,3,0,win,Carabao Cup
+Man United,Reading,1/28/2023,3,1,win,FA Cup
+Man United,Nottingham Forest,2/1/2023,2,0,win,Carabao Cup
+Man United,Crystal Palace,2/4/2023,2,1,win,Premier League
+Man United,Leeds United,2/8/2023,2,2,draw,Premier League
+Man United,Leeds United,2/12/2023,2,0,win,Premier League
+Man United,Barcelona,2/16/2023,2,2,draw,Europa League
+Man United,Leicester City,2/19/2023,3,0,win,Premier League
+Man United,Barcelona,2/23/2023,2,1,win,Europa League
+Man United,Newcastle,2/26/2023,2,0,win,Carabao Cup
+Man United,West Ham,3/1/2023,3,1,win,FA Cup
+Man United,Liverpool,3/5/2023,0,7,loss,Premier League
+Man United,Real Betis,3/9/2023,4,1,win,Europa League
+Man United,Southampton,3/12/2023,0,0,draw,Premier League
+Man United,Real Betis,3/16/2023,1,0,win,Europa League
+Man United,Fulham,3/19/2023,3,1,win,FA Cup
+Chelsea,Nottingham Forest,1/1/2023,1,1,draw,Premier League
+Chelsea,Man City,1/5/2023,0,1,loss,Premier League
+Chelsea,Man City,1/8/2023,0,4,loss,FA Cup
+Chelsea,Fulham,1/12/2023,1,2,loss,Premier League
+Chelsea,Crystal Palace,1/15/2023,1,0,win,Premier League
+Chelsea,Liverpool,1/21/2023,0,0,draw,Premier League
+Chelsea,Fulham,2/3/2023,0,0,draw,Premier League
+Chelsea,West Ham,2/11/2023,1,1,draw,Premier League
+Chelsea,Dortmund,2/15/2023,0,1,loss,Champions League
+Chelsea,Southampton,2/18/2023,0,1,loss,Premier League
+Chelsea,Tottenham,2/26/2023,0,2,loss,Premier League
+Chelsea,Leeds United,3/4/2023,1,0,win,Premier League
+Chelsea,Dortmund,3/7/2023,2,0,win,Champions League
+Chelsea,Leicester City,3/11/2023,3,1,win,Premier League
+Chelsea,Everton,3/18/2023,2,2,draw,Premier League
