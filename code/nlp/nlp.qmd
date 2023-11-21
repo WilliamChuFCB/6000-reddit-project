@@ -22,7 +22,7 @@ format:
 - Topics:
 
   1. 
-  - Business Goal: Identify the teams or players linked to the highest levels of toxicity in Reddit conversations.
+  - Business Goal: Identify the teams linked to the highest levels of toxicity in Reddit conversations.
   - Technical Proposal: Create a manual dictionary mapping major team and league names to their respective subreddit names. Gather Reddit posts from a variety of subreddits listed in the dictionary. Establish a processing pipeline to clean and tokenize the text of these posts. Train a toxicity content classifier using a labeled dataset obtained from Kaggle. Apply the trained model to the preprocessed posts and visualize the results using a bar plot.
 
    2. 
@@ -36,25 +36,68 @@ format:
 
 ## Executive summary
 
+### Business Goal 1:
 
-### Topic 3:
+The study reveals varying toxicity levels in soccer club subreddits, with Atletico's having the highest, possibly due to the club's violent reputation. Toxicity peaks on weekends and mid-week, aligning with league and UEFA games, but dips during national team matches, indicating fluctuating fan behavior.
+
+### Business Goal 3:
 
 This NLP analysis suggests that of all the sub-topics about the World Cup 2022, people discussed the players most frequently. Additionally, a large amount of people might not be satisfied with certain judgments from the referees during the World Cup. It is also noticeable that people's general attitude towards the World Cup 2022 did not change much over time.
 
 ## Analysis report
 
-### Topic 3
+### Business Goal 1: Identify the teams linked to the highest levels of toxicity in Reddit conversations.
+
+[External Data Source: Toxic Comment Classification](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview)
+
+To achieve this business goal, we trained the model using a Wikipedia comments dataset, which has been evaluated by human raters for toxic behavior. There are six different types of toxicity, and we assigned toxicity scores as follows: toxic (1 point), insult (2 points), obscene (2 points), identity hate (3 points), threat (3 points), and severe toxicity (4 points). We utilized a pipeline to process the text to ensure efficient flow and processing of textual data for classification purposes. The pipeline outlined is designed for text classification, starting with the DocumentAssembler which prepares raw text for processing. It includes a SentenceDetector and Tokenizer for breaking down the text into sentences and tokens, respectively. Sentence embeddings are generated using the UniversalSentenceEncoder, which are then fed into the MultiClassifierDLApproach for classification.
+
+```{python, echo=FALSE}
+#| label: tbl-planets1
+#| tbl-cap: Average Toxic Score of Main Club Subreddits
+import pandas as pd
+import numpy as np
+
+df1 = pd.read_csv('../../data/csv/toxic_club.csv')
+df1
+```
+
+According to the classification result, the first tabel reveals varying levels of toxicity in comments across soccer club subreddits, with atletico's subreddit showing the highest average toxicity score (1.172) and schalke04's the lowest (1.095). It is understandable the Atletico has the highest toxicity score since the it is widely known as one of the most violent clubs in Europe.
+
+```{python, echo=FALSE}
+#| label: tbl-planets2
+#| tbl-cap: Average Toxic Score of Different Days of Week
+import pandas as pd
+import numpy as np
+
+df2 = pd.read_csv('../../data/csv/toxic_week.csv')
+df2
+```
+
+We also found that different days of week have different level of toxicity score. On weekends, the toxic comments are more than weekdays since league games are played on weekends so people tend to have hostile comments during and after games. It is noticeable that the scores on Wednesday and Thursday is also relatively higher because UEFA Champions League and Europa League played on these days.
+
+```{python, echo=FALSE}
+#| label: fig-polar1
+#| fig-cap: Average Toxic Score Change (Jan 2023 - Mar 2023)
+from PIL import Image
+with Image.open("../../data/plots/toxic_date.png") as img1:
+    display(img1)
+```
+
+According to the lineplot, the weekly periodic pattern is obvious, which has been proved by the table of toxicity score for different days of week. Instead of club games, national team games were held from March 20 to March 28 so the toxicity is fairly low during this time.
+
+### Business Goal 3: Examine how soccer fans feel about the 2022 World Cup, and how their feelings evolve over time.
 
 This section analyzes sentiment over time for Reddit comments related to the 2022 World Cup. Firstly, a regex pattern, defined by key words, filters relevant posts. Then, three dummy variables were introduced to determine if posts are related to champions, players, or referees. A pre-trained sentiment analysis model was employed to categorize the sentiment of each post. Here is a resulting cross-tabulation showing the post counts across sentiment categories within each World Cup sub-topic.
 
 ```{python, echo=FALSE}
-#| label: tbl-planets1
+#| label: tbl-planets3
 #| tbl-cap: Cross-tabulation of Sentiment Analysis about the World Cup
 import pandas as pd
 import numpy as np
 
-df1 = pd.read_csv('../../data/csv/worldcup_count_table.csv')
-df1
+df3 = pd.read_csv('../../data/csv/worldcup_count_table.csv')
+df3
 ```
 
 A grouped barplot is also created to visualize the sentiment by category. 
@@ -72,21 +115,21 @@ This plot reveals a notably higher post volume about players compared to other s
 In the subsequent section, sentiment analysis was conducted on a weekly basis, calculating the total, positive, negative, and neutral post counts for each week within the timeframe. Here is a table summarizing this weekly data and a time series plot for visualization.
 
 ```{python, echo=FALSE}
-#| label: tbl-planets3
+#| label: tbl-planets4
 #| tbl-cap: Weekly Summary Data of Sentiment Analysis about the World Cup
 import pandas as pd
 import numpy as np
 
-df3 = pd.read_csv('../../data/csv/worldcup_weekly_count.csv')
-df3
+df4 = pd.read_csv('../../data/csv/worldcup_weekly_count.csv')
+df4
 ```
 
 ```{python, echo=FALSE}
-#| label: fig-polar4
-#| fig-cap: Weekly Sentiment Post Counts and Psitive Percentage about the World Cup
+#| label: fig-polar3
+#| fig-cap: Weekly Sentiment Post Counts and Positive Percentage about the World Cup
 from PIL import Image
-with Image.open("../../data/plots/worldcup_weekly_sentiment_post_counts.png") as img4:
-    display(img4)
+with Image.open("../../data/plots/worldcup_weekly_sentiment_post_counts.png") as img3:
+    display(img3)
 ```
 
 The time series plot shows no distinct trend in post volume throughout the period. The numbers of positive and negative posts paralleled the overall post trend, while the count of neutral posts remained low and steady. The proportion of positive posts was relatively unchanged, indicating that general attitudes towards the World Cup did not significantly fluctuate over time.
