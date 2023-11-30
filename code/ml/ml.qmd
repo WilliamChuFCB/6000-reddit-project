@@ -1,0 +1,159 @@
+---
+title: "ML - Reddit Data about Soccer"
+author:
+  - name: Jingda Yang, Wendi Chu, Haiyu Xiao, Tingsong Li
+
+execute:
+  echo: false
+
+format:
+  html:
+    embed-resources: true
+    self-contained: true
+    page-layout: full
+    fig-cap-location: bottom
+    toc: true
+    toc-location: left
+    toc-title: Contents
+---
+
+
+
+- Topics:
+
+  1. 
+  - Business Goal: Predict the popularity of reddit Posts in soccer subreddit with various factors.
+  - Technical Proposal: Gather Reddit posts from a soccer subreddit. Establish a processing pipeline to vectorize and train the dataset with different factors related to the post. Use pyspark machine learning package to train a random forest classifier to predict if a post can have more than 20 posts using a grid map and cross validation. Apply the trained model to the test set for prediction and get the feature importance and visualize the results using a bar plot.
+
+  2. 
+  - Business Goal: Determine if there is a relationship between the changes of sentiment in soccer subreddits and major events (e.g., wins, losses). 
+  - Technical Proposal: Match the Reddit data with key soccer events using dates and team/player mentions. Utilize NLP techniques to assign sentiment scores to each post and comment, and label the dataset with sentiment scores. Investigate sentiment before, during, and after major events. Display sentiment trends over time with event markers.
+
+  3. 
+  - Business goal: Examine how soccer fans feel about the 2022 World Cup, and how their feelings evolve over time.
+
+  - Technical proposal: First extract all the posts relevant to the 2022 World Cup from all the available records. Then apply sentiment analysis for each post to examine the feeling towards the World Cup. Finally track the sentiment over time to see how soccer fans' feelings change.
+
+## Executive summary
+
+### Business Goal 1:
+
+The study predicts the popularity of posts in soccer subreddit with accuracy higher than 88%. It reveals that factor score stands out of other factors. Other factors such as title length and number of crossposts also play a role in determine the popularity but publish time and adult contents are not helpful for predictions.
+
+### Business Goal 2:
+
+The NLP analysis proves that there are relationships between the sentiment scores of fans' comments and the match results. The analysis examines the sentiment situation of fans of Arsenal, Manchester United and Chelsea, and the results indicate that the fans of all three clubs were showing mostly negative moods, especially when the team lost or tied in a match.
+
+### Business Goal 3:
+
+This NLP analysis suggests that of all the sub-topics about the World Cup 2022, people discussed the players most frequently. Additionally, a large amount of people might not be satisfied with certain judgments from the referees during the World Cup. It is also noticeable that people's general attitude towards the World Cup 2022 did not change much over time.
+
+## Analysis report
+
+### Business Goal 1: Identify the teams linked to the highest levels of toxicity in Reddit conversations.
+
+In this study, we aim to develop a machine learning model that predicts the popularity of Reddit posts based on various factors, with popularity defined as receiving more than 20 comments per post. This model is intended to identify key factors that contribute to increasing comment activity, serving as a guide for Reddit users to enhance the popularity of their posts. Our chosen methodology utilizes the random forest classifier, implemented through the "pyspark.ml" package. The process began with the collection of submission data from the soccer subreddit. Key features included in the analysis were post length and a binary indicator for nighttime posting. A pipeline was established to vectorize the training data and to construct the random forest model. Grid search and cross-validation techniques were employed to optimize the model, leading to the selection of a random forest model with 50 trees and a maximum depth of 15. The model demonstrated a high level of accuracy, achieving a test accuracy of 0.8893. In terms of feature importance, which is based on the reduction in impurity, the 'score' factor (likes minus dislikes) emerged as the most influential. Secondary factors, such as the number of crossposts and title length, had a significant but lesser impact. Other contributing factors included posts authored by administrators, those containing videos, or with enabled previews, each showing a moderate increase in popularity. Conversely, the time of publishing and the presence of adult content were found to be less influential in determining post popularity.
+
+```{python, echo=FALSE}
+#| label: fig-polar1
+#| fig-cap: Feature Importance
+from PIL import Image
+with Image.open("../../data/plots/feature_importance.png") as img1:
+    display(img1)
+```
+
+In terms of feature importance, which is based on the reduction in impurity, the 'score' factor (likes minus dislikes) emerged as the most influential. Secondary factors, such as the number of crossposts and title length, had a significant but lesser impact. Other contributing factors included posts authored by administrators, those containing videos, or with enabled previews, each showing a moderate increase in popularity. Conversely, the time of publishing and the presence of adult content were found to be less influential in determining post popularity.
+
+### Business Goal 2: Determine if there is a relationship between the changes of sentiment in soccer subreddits and major events (e.g., wins, losses).
+
+[External Data Source: Match Result Data](https://www.espn.com/soccer/team/results/_/id/359/arsenal)
+
+To implement this task, first match the Reddit data of the 3 most commented clubs with soccer matches result data using dates. Utilize NLP techniques to assign sentiment scores to each post and comment, and label the dataset with sentiment scores. Investigate sentiment before, during, and after major events. Display sentiment trends over time with event markers and align with match results to study the relationship between these two events.
+
+```{python, echo=FALSE}
+#| label: fig-polar2
+#| fig-cap: Sentiment of Arsenal Fans
+from PIL import Image
+with Image.open("../../data/plots/arsenal_match_sentiment.png") as img1:
+    display(img1)
+```
+
+This is a combined line and bar plot, showing the number of comments from Arsenal fans of positive and negative sentiments as lines, and the match result as bars (also showing the average number of positive and negative comments on matchdays). 
+
+We can draw some interesting findings from this sentiment analysis: First, on the date when there was a match for Arsenal the comments number are much higher than the days when there was no match; Second, Arsenal fans tend to have rather balanced sentiments in their comments when there is no matches, however when Arsenal lost or draw a game, the number of negative comments are always higher than the positive comments, many times much higher. Even when Arsenal won, the fans did not really show much more positivity, sometimes even more negative when a match was won. Consider Arsenal has historically not been doing great during January to March, as they lost their leading position in the premier league in this time in 2023, it is understandable that their fans are not very optimistic.
+
+
+```{python, echo=FALSE}
+#| label: fig-polar3
+#| fig-cap: Sentiment of Man United Fans
+from PIL import Image
+with Image.open("../../data/plots/man_united_match_sentiment.png") as img1:
+    display(img1)
+```
+
+This is a combined line and bar plot, showing the number of comments from Manchester United fans of positive and negative sentiments as lines, and the match result as bars (also showing the average number of positive and negative comments on matchdays).
+
+The mood of Man United fans are clearly worse than Arsenal fans. Man United played more matches than Arsenal in this period, and despite winning most of them, on only three winning days the fans showed higher positivity than negativity in the comments; The fans always posted much more negative comments when there is a draw, and even though they only lost 2 matches, they lost to Arsenal first in January, and then lost 0 to 7 against Liverpool in March where this match resulted in extreme negative sentiments on this day. Overall, Manchester United fans are high demanding on their players, and losing to their biggest rival Liverpool in a brutal fashion led to a very sad and angry day for the fans.
+
+
+```{python, echo=FALSE}
+#| label: fig-polar4
+#| fig-cap: Sentiment of Chelsea Fans
+from PIL import Image
+with Image.open("../../data/plots/chelsea_match_sentiment.png") as img1:
+    display(img1)
+```
+
+This is a combined line and bar plot, showing the number of comments from Chelsea fans of positive and negative sentiments as lines, and the match result as bars (also showing the average number of positive and negative comments on matchdays).
+
+The situation for Chelsea and their fans are the worst among the teams discussed. They lost 6 matches, tied 5 matches and only won 4, which is a not good performance by a top level team; as a result the fans are showing negative sentiment after every match, especially when they lost 3 matches in a row two times. Even for the 4 mathces they won, the fans still posted slightly less positive comments than negative ones. Chelsea was really struggling during this period, especially not being able to score, therefore their fans did have reasons to be upset about their team.
+
+
+### Business Goal 3: Examine how soccer fans feel about the 2022 World Cup, and how their feelings evolve over time.
+
+This section analyzes sentiment over time for Reddit comments related to the 2022 World Cup. Firstly, a regex pattern, defined by key words, filters relevant posts. Then, three dummy variables were introduced to determine if posts are related to champions, players, or referees. A pre-trained sentiment analysis model was employed to categorize the sentiment of each post. Here is a resulting cross-tabulation showing the post counts across sentiment categories within each World Cup sub-topic.
+
+```{python, echo=FALSE}
+#| label: tbl-planets3
+#| tbl-cap: Cross-tabulation of Sentiment Analysis about the World Cup
+import pandas as pd
+import numpy as np
+
+df3 = pd.read_csv('../../data/csv/worldcup_count_table.csv')
+df3
+```
+
+A grouped barplot is also created to visualize the sentiment by category. 
+
+```{python, echo=FALSE}
+#| label: fig-polar5
+#| fig-cap: Category-wise Sentiment Analysis about the World Cup
+from PIL import Image
+with Image.open("../../data/plots/worldcup_sentiment_count_by_category.png") as img2:
+    display(img2)
+```
+
+This plot reveals a notably higher post volume about players compared to other sub-topics. Additionally, the champion-related posts had a greater share of positive sentiment, while referee-related posts skewed negative, hinting at dissatisfaction with referees' decisions.
+
+In the subsequent section, sentiment analysis was conducted on a weekly basis, calculating the total, positive, negative, and neutral post counts for each week within the timeframe. Here is a table summarizing this weekly data and a time series plot for visualization.
+
+```{python, echo=FALSE}
+#| label: tbl-planets4
+#| tbl-cap: Weekly Summary Data of Sentiment Analysis about the World Cup
+import pandas as pd
+import numpy as np
+
+df4 = pd.read_csv('../../data/csv/worldcup_weekly_count.csv')
+df4
+```
+
+```{python, echo=FALSE}
+#| label: fig-polar6
+#| fig-cap: Weekly Sentiment Post Counts and Positive Percentage about the World Cup
+from PIL import Image
+with Image.open("../../data/plots/worldcup_weekly_sentiment_post_counts.png") as img3:
+    display(img3)
+```
+
+The time series plot shows no distinct trend in post volume throughout the period. The numbers of positive and negative posts paralleled the overall post trend, while the count of neutral posts remained low and steady. The proportion of positive posts was relatively unchanged, indicating that general attitudes towards the World Cup did not significantly fluctuate over time.
+
