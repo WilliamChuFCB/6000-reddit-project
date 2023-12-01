@@ -29,7 +29,13 @@ format:
   - Business Goal: Predict the controversiality of social media posts using their textual content and user engagement scores.
   - Technical Proposal: Implement a machine learning model that integrates NLP to analyze the body and numerical analysis of engagement scores. Utilize logistic regression to categorize posts into controversial or non-controversial, leveraging insights about the relationship between content and user interactions.
 
-  1. 
+  3. 
+  - 
+  - 
+
+  4. 
+  - Business Goal: Predict the outcome of matches based on the text and score of comments on the same day.
+  - Technical proposal: Use historical game outcome records to serve as training labels for the model. Merge comments text and scores with historical game outcomes based on the date and teams playing, and perform text vectorization on the comments. Experiment with various ML algorithms (e.g., logistic regression, random forests, SVM, neural networks) to find the best performer and predict on a testing set. Evaluate the percentage of correct predictions.
 
 
 ## Executive summary
@@ -44,6 +50,9 @@ Predict the controversiality of social media posts using their textual content a
 
 ### Business Goal 3:
 
+### Business Goal 4:
+
+Reddit comments of teams' fans can be valuable for predicting the match score of their favorite team. The study reveals that using the comments text and the scores can achieve over 70% of accuracy when forecasting the result of the match, therefore one can moderately tell how a soccer match went based on the fans' opinions.
 
 
 ## Analysis report
@@ -61,6 +70,7 @@ with Image.open("../../data/plots/feature_importance.png") as img1:
 ```
 
 In terms of feature importance, which is based on the reduction in impurity, the 'score' factor (likes minus dislikes) emerged as the most influential. Secondary factors, such as the number of crossposts and title length, had a significant but lesser impact. Other contributing factors included posts authored by administrators, those containing videos, or with enabled previews, each showing a moderate increase in popularity. Conversely, the time of publishing and the presence of adult content were found to be less influential in determining post popularity.
+
 
 ### Business Goal 2: Predict the controversiality of social media posts using their textual content and user engagement scores.
 
@@ -102,3 +112,24 @@ Model 2 is more sensitive to controversial posts and may be more useful when mis
 The models can guide content management strategies, and provide information for user engagement strategies. The models can also identify controversial content based on text analytics, which may help categorize the management of posts in forums.
   
 ### Business Goal 3: 
+
+
+### Business Goal 4: Predict the outcome of matches based on the text and score of comments on the same day.
+
+Three most popular teams are chosen to retrieve the comments of their fans on a matchday, and the match result of the team on that day are also recorded. The figure here shows the cleaned comments text body along with the comments' score as input features, where the training and predicting labels are the outcome of the match on the day the comments were made. Prior to the actual machine learning section, a few preparations are done on this dataset, including vectorizing the text bodies using tokenizer and hashing into a new feature, transforming the outcomes into 1s (win) and 0s (loss), and combining the new feature and the score of each comment into the correct traning feature.
+
+```{python, echo=FALSE}
+#| label: fig-polar4
+#| fig-cap: Feature Importance
+with Image.open("../../data/plots/score_ml_df.PNG") as img1:
+    display(img1)
+```
+
+Since only 2 outcome: win or loss are used in this machine learning study, logistic regression is the model to be trained. After the model is trained on the comment scores and the vectorized comments texts, it can then predict on the testing features. According the results of the measurements, the accuracy, precision and recall of the predictions compared to the testing labels are all around 0.7, which is a bit disappointing for a binary classification learning. According to the confusion matrix, it seems that the model is good at predicting actual wins, however when predicting losses the performance is not quite good. Thus we can conclude that the model can moderately tell the outcome of a match based on the comments and their scores.
+
+```{python, echo=FALSE}
+#| label: fig-polar5
+#| fig-cap: Feature Importance
+with Image.open("../../data/plots/score_ml_cm.PNG") as img1:
+    display(img1)
+```
