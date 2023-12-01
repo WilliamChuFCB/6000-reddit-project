@@ -30,8 +30,9 @@ format:
   - Technical Proposal: Implement a machine learning model that integrates NLP to analyze the body and numerical analysis of engagement scores. Utilize logistic regression to categorize posts into controversial or non-controversial, leveraging insights about the relationship between content and user interactions.
 
   3. 
-  - 
-  - 
+  - Business goal: Determine whether unsupervised models can be utilized to divide the users into different clusters.
+  - Technical proposal: Apply NLP to extract the posts related to soccer. Then convert the body message into multiple dummy variables indicating the presence and frequency of certain words and topics. Leverage clustering algorithms to divide the unique users into different groups and identify the common features within each group. 
+
 
   4. 
   - Business Goal: Predict the outcome of matches based on the text and score of comments on the same day.
@@ -49,6 +50,8 @@ The study predicts the popularity of posts in soccer subreddit with accuracy hig
 Predict the controversiality of social media posts using their textual content and user engagement scores. This study offers a tool to help determine what kinds of posts typically trigger a lot of debate and conversation. This can be helpful for online forums that want to control or monitor content that might trigger argumentative debates.
 
 ### Business Goal 3:
+
+Reddit comments from the 'soccer' subreddit have been clustered into five distinct groups based on keyword frequency. The clustering reveals an imbalance, with the first group encompassing most of the records. The remaining four groups distinctly correlate with specific keywords: 'ligue 1', 'germany', 'europa', and 'ballon'. This indicates diverse user interests within the subreddit, focused on different aspects of soccer.
 
 ### Business Goal 4:
 
@@ -113,13 +116,53 @@ The models can guide content management strategies, and provide information for 
   
 ### Business Goal 3: 
 
+In this section, the reddit comments which contain specific keywords relevant to soccer are selected. Then, this study create multiple numeric variables for indicating the frequency of these keywords within each piece of comment. K-means algorithm is performed based on this filtered data after vectorization and standardization. In order to choose the optimal value of k in this algorithm, two different evaluation methods have been utilized, including Silhouette method and elbow method.
+
+```{python, echo=FALSE}
+#| label: fig-polar4
+#| fig-cap: Silhouette Method for Optimal k
+from PIL import Image
+with Image.open("../../data/plots/silhouette_plot.png") as img1:
+    display(img1)
+```
+
+```{python, echo=FALSE}
+#| label: fig-polar5
+#| fig-cap: Elbow Method for Optimal k
+from PIL import Image
+with Image.open("../../data/plots/elbow_plot.png") as img1:
+    display(img1)
+```
+
+According to these two lineplots, Silhouette method suggests k=5 while elbow method suggests k=6. Taking into consideration of both methods, 5 is finally chosen as the optimal value for k.
+
+```{python, echo=FALSE}
+#| label: tbl-planets6
+#| tbl-cap: Number of Comments Within Each Cluster
+import pandas as pd
+df = pd.read_csv('../../data/csv/cluster_count.csv')
+df = df.head()
+df
+```
+
+Above table shows the distribution of each cluster, which shows obvious imbalance since the first cluster contains the large majority of comments. To further evaluate the result of clustering result, the average feature values are calculated for each cluster, and the headmap of the average values is shown below.
+
+```{python, echo=FALSE}
+#| label: fig-polar7
+#| fig-cap: Cluster Feature Heatmap
+from PIL import Image
+with Image.open("../../data/plots/cluster_feature_heatmap.png") as img1:
+    display(img1)
+```
+
+According to this heatmap, the remaining four clusters distinctly correlate with specific keywords: 'ligue 1', 'germany', 'europa', and 'ballon', suggesting that this clustering method successfully captures certain important features and categorizes the reddit comments based on some specific characteristics.
 
 ### Business Goal 4: Predict the outcome of matches based on the text and score of comments on the same day.
 
 Three most popular teams are chosen to retrieve the comments of their fans on a matchday, and the match result of the team on that day are also recorded. The figure here shows the cleaned comments text body along with the comments' score as input features, where the training and predicting labels are the outcome of the match on the day the comments were made. Prior to the actual machine learning section, a few preparations are done on this dataset, including vectorizing the text bodies using tokenizer and hashing into a new feature, transforming the outcomes into 1s (win) and 0s (loss), and combining the new feature and the score of each comment into the correct traning feature.
 
 ```{python, echo=FALSE}
-#| label: fig-polar4
+#| label: fig-polar8
 #| fig-cap: Feature Importance
 with Image.open("../../data/plots/score_ml_df.PNG") as img1:
     display(img1)
@@ -128,7 +171,7 @@ with Image.open("../../data/plots/score_ml_df.PNG") as img1:
 Since only 2 outcome: win or loss are used in this machine learning study, logistic regression is the model to be trained. After the model is trained on the comment scores and the vectorized comments texts, it can then predict on the testing features. According the results of the measurements, the accuracy, precision and recall of the predictions compared to the testing labels are all around 0.7, which is a bit disappointing for a binary classification learning. According to the confusion matrix, it seems that the model is good at predicting actual wins, however when predicting losses the performance is not quite good. Thus we can conclude that the model can moderately tell the outcome of a match based on the comments and their scores.
 
 ```{python, echo=FALSE}
-#| label: fig-polar5
+#| label: fig-polar9
 #| fig-cap: Feature Importance
 with Image.open("../../data/plots/score_ml_cm.PNG") as img1:
     display(img1)
