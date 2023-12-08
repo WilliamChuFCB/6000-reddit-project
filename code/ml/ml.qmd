@@ -159,14 +159,7 @@ According to this heatmap, the remaining four clusters distinctly correlate with
 
 ### Business Goal 4: Predict the outcome of matches based on the text and score of comments on the same day.
 
-Three most popular teams are chosen to retrieve the comments of their fans on a matchday, and the match result of the team on that day are also recorded. The figure here shows the cleaned comments text body along with the comments' score as input features, where the training and predicting labels are the outcome of the match on the day the comments were made. Prior to the actual machine learning section, a few preparations are done on this dataset, including vectorizing the text bodies using tokenizer and hashing into a new feature, transforming the outcomes into 1s (win) and 0s (loss), and combining the new feature and the score of each comment into the correct traning feature.
-
-```{python, echo=FALSE}
-#| label: fig-polar8
-#| fig-cap: Feature Importance
-with Image.open("../../data/plots/score_ml_df.PNG") as img1:
-    display(img1)
-```
+Three most popular teams are chosen to retrieve the comments of their fans on a matchday, and the match result of the team on that day are also recorded. The cleaned comments text body along with the comments' score are input features, where the training and predicting labels are the outcome of the match on the day the comments were made. Prior to the actual machine learning section, a few preparations are done on this dataset, including vectorizing the text bodies using tokenizer and hashing into a new feature, transforming the outcomes into 1s (win) and 0s (loss), and combining the new feature and the score of each comment into the correct traning feature.
 
 Since only 2 outcome: win or loss are used in this machine learning study, logistic regression is the model to be trained. After the model is trained on the comment scores and the vectorized comments texts, it can then predict on the testing features. According the results of the measurements, the accuracy, precision and recall of the predictions compared to the testing labels are all around 0.7, which is a bit disappointing for a binary classification learning. According to the confusion matrix, it seems that the model is good at predicting actual wins, however when predicting losses the performance is not quite good. Thus we can conclude that the model can moderately tell the outcome of a match based on the comments and their scores.
 

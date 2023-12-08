@@ -28,7 +28,7 @@ format:
   - Technical Proposal: Develop a manual dictionary that associates major team and league names with their respective subreddit counterparts. Extract Reddit posts from a diverse set of subreddits listed in the dictionary. Subsequently, calculate the post count for each subreddit and visualize the findings using a bar plot.
 
    2. 
-  - Business Goal: Determine which days of the week see the most activity from soccer fans, and whether this is driven by match days.
+  - Business Goal: Determine which days see the most activity from soccer fans, and whether this is driven by match days.
  
   - Technical Proposal: Get external soccer match schedule and data for the same time frame, filter and merge the Reddit activity data with the match schedule data based on the date. Count daily posts and comments in soccer subreddits, flag days with matches using the external database, and assess the relationship between match days and activity spikes. For visualization methods, illustrate the volume of posts/comments over time and compare average daily activity on match days versus non-match days.
   
@@ -88,7 +88,7 @@ with Image.open("../data/plots/word_cloud.png") as img3:
 
 The soccer subreddit word cloud highlights key themes of discussions, such as strategic thinking ("think"), the excitement of the game ("game"), team dynamics ("team" and "club"), and fans' desires ("want"). Notably, the focus is more on the collective experience of soccer, with only a few specific club mentions like "Arsenal" rather than individual player names. The word "player" suggests a broader discussion of various players across different clubs. Overall, the word cloud reflects a community engaged in analyzing and sharing perspectives on soccer matches, strategies, and the overall team and club experience without emphasizing specific players.
 
-## 3. Determine Which Days of the Week See the Most Activity from Soccer Fans, and Whether This is Driven by Match Days.
+## 3. Determine Which Days See the Most Activity from Soccer Fans, and Whether This is Driven by Match Days.
 count_comments_everyday
 ```{python, echo=FALSE}
 #| label: fig-polar4
@@ -128,16 +128,18 @@ with Image.open("../data/plots/daily_comments_matches.png") as img6:
 
 This line plot shows the pattern of the daily number of Reddit comments in the subreddits about soccer, and the daily number of soccer matches played in top leagues. There are similar traits in the two lines, for example on 2023-01-30 and 2023-01-31 there are few to none matches played, and the comments count on Reddit for these two days are also low; For every few days there are two days where around 20 matches are played, and on these days the number of Reddit comments also peaked. This time series line charts therefore show some degree of correlation between the number of comments and matches for each day.
 
-#### Bar Plot
+To track down the correlation, the correlation coefficient metric between the number of comments and matches each day was calculated to be 0.614. Since 0.614 is not a large number, we can say that the two counts are moderately positively correlated. To further explore this, a scatter plot between the two counts along with a regression line is shown below.
+
+#### Scatter Plot
 
 ```{python, echo=FALSE} 
 #| label: fig-polar7
 #| fig-cap: "Daily Number of Reddit Comments vs. Number of Matches"
-with Image.open("../data/plots/weekday_comments_matches.png") as img7:
+with Image.open("../data/plots/daily_comments_matches_scatter.png") as img7:
     display(img7)
 ```
 
-The bar chart explores the distribution of the number of Reddit comments and matches played on each weekday. First, on the weekends there are significantly more matches played, and much more comments made; However, even though the number of matches and comments are correlated on the weekends, there is little to none correlation between them on the weekdays. For example, on Mondays and Fridays, on average there are less than 50000 comments made, but there are still more than 3 matches played; But on Thursdays there are average more than 60000 comments made but almost no top leagues matches are played on Thursdays. Therefore, we can only conclude that the weekends are the time most matches are played and much more commands are made, but the more comments may be caused by users having more free time, other than more games being played.
+Based on the scatter plot, the regression line shows that there is a positive relation between the number of matches and reddit comments per day, and the correlation is moderately strong.
 
 ## 4. Identify What Aspects of Soccer Are Most Frequently Discussed in Different Subreddits and What Kind of Topics Are Most Likely to Acquire High Scores.
 
