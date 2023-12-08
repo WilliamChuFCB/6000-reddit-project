@@ -31,23 +31,18 @@ format:
 
    3. 
   - Your analysis of match to comments is good, but you only took the first step. You referenced correlation, you should continue down that track. Can you give me a metric? 
-  - **Feedback**:
+  - **Feedback**: To continue down on the track of looking for the correlation, some kind of metric should also be provided. Indeed, to determine if there is a strong correlation between the number of matches and the number of comments for each day, a statistic result should be helpful. So first, the correlation coefficient is calculated, then, a scatter plot with a regression line is also shown.
    
    4. 
-  - Can you show which day around large match days are getting the most activity? 
-  - **Feedback**:
-   
-   5. 
   - You should explain the gilded term for the reader. 
   - **Feedback**:
 
 ## NLP work
 
-   6. 
+   5. 
   - It could be interesting to show a similar chart and have a positive/negative ratio for the lines
-  - **Feedback**:
+  - **Feedback**: It could be interesting to show a similar chart and have a positive/negative ratio for the lines, so a similar chart where the line showing the ratio is added. The plot of single line of the positive/negative comments ratio can be more straightfoward than the plot of 2 lines of both positive and negative comments.
      
-
 
 ## ML work
 
