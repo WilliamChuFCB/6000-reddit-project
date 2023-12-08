@@ -1,0 +1,83 @@
+---
+title: "Feedback Discussion - Reddit Data about Soccer"
+author:
+  - name: Jingda Yang, Wendi Chu, Haiyu Xiao, Tingsong Li
+
+execute:
+  echo: false
+
+format:
+  html:
+    embed-resources: true
+    self-contained: true
+    page-layout: full
+    fig-cap-location: bottom
+    toc: true
+    toc-location: left
+    toc-title: Contents
+    #tbl-cap-location: bottom
+---
+
+
+## EDA work
+   1. 
+  - Goal 1: Try to bring a time component to this goal. Otherwise it is just a count exercise and that is not complex enough for the project.
+  - **Feedback**:
+
+   2. 
+  - In addition to just the word counts for the word cloud, I am interested in seeing the TF-IDF in the future!
+  - **Feedback**:
+
+   3. 
+  - Your analysis of match to comments is good, but you only took the first step. You referenced correlation, you should continue down that track. Can you give me a metric? 
+  - **Feedback**:
+   
+   4. 
+  - Can you show which day around large match days are getting the most activity? 
+  - **Feedback**:
+   
+   5. 
+  - You should explain the gilded term for the reader. 
+  - **Feedback**:
+## NLP work
+
+   6. 
+  - It could be interesting to show a similar chart and have a positive/negative ratio for the lines
+  - **Feedback**:
+     
+
+
+## ML work
+
+   7. 
+  - Worth discussing the words most important in determining controversiality.
+  - **Feedback**:The approach we use - combining Tokenizer, CountVectorizer, and IDF - inherently loses the context and order of words, converting them into high-dimensional vectors that represent frequency rather than order context. This creates challenges in accurately interpreting the impact of individual words. In addition, focusing on individual words may oversimplify the complex relationships in these vectors, thus detracting from our primary goal of evaluating overall model performance and predictive capability. Considering these factors, as well as the potential for misinterpretation and bias, I believe that our analyses would benefit from focusing on a broader range of performance metrics as well as the effectiveness of data preprocessing and modeling methods.
+
+   7. 
+  - The calculation at the individual comment level may make it tough to predict effectively. I might think of this as an analysis of the group of comments the day before a match as a group of comments or single large statement and then use characteristics about those comments to predict game outcome. It could be like a predict-o-meter from fans. 
+  - **Feedback**:
+
+## Website/results
+   8. 
+  - Agree with the peer group that you should work on improved page structure and usability. You made your code embedded into the website, which is fine for now but I would encourage you to make it more professional for the next deliverables. 
+  - **Feedback**: We already use qmd file to generate html file, so the new page is clean and easy to read. We also add a navigation bar to make it easier to navigate between pages.
+
+
+## Feedback from the Other Group
+
+   9. 
+  - Introduce your tables, and what the table means
+  - **Feedback**: 
+
+   10. 
+  - Interpret the plot and state the plot meaning related to your project topics.
+  - **Feedback**: 
+  
+   11. 
+  - Unify the plot format, like the title or text size.
+  - **Feedback**: 
+  
+   12. 
+  - Include more stopwords in your word cloud EDA. In the plot, there are lots of meaningless words that should be cleaned in the stopwords. The analysis of this part will be more precise after the improvement.
+  - **Feedback**: 
+

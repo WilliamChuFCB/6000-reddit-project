@@ -1,0 +1,130 @@
+---
+title: "Introduction - Reddit Data about Soccer"
+author:
+  - name: Jingda Yang, Wendi Chu, Haiyu Xiao, Tingsong Li
+
+execute:
+  echo: false
+
+format:
+  html:
+    embed-resources: true
+    self-contained: true
+    page-layout: full
+    fig-cap-location: bottom
+    toc: true
+    toc-location: left
+    toc-title: Contents
+    #tbl-cap-location: bottom
+---
+```{python}
+#| echo: false
+from PIL import Image
+myImage = Image.open("../docs/img/world-cup-final.jpeg")
+myImage
+```
+*Picture from Anne-Christine Poujoulat/AFP/Getty Images*
+
+## Soccer
+As the world's most popular sport, soccer has a giant global fanbase. Regardless of team, fans celebrate match days, cheering for the performances of their favorite teams, whether in stadiums or via screens. The World Cup is the most significant soccer championships, appealing billions every four years. In addition to the World Cup, major leagues like the English Premier League, Spain's La Liga, Italy's Serie A, Germany's Bundesliga, and France's Ligue 1 also draw significant attention. Top clubs such as Manchester City, Bayern Munich, and Real Madrid not only enjoy local support but also attract a widespread international following, underscoring soccer's universal appeal and unifying power.
+
+## Scooer & Social Media
+Social media has revolutionized the way soccer is experienced and enjoyed globally. It bridges the gap between fans and their favorite teams and players, providing real-time updates, behind-the-scenes access, and a platform for interaction. Clubs and players use social media to build their brands and foster a deeper connection with their fanbase, enhancing the sense of community. For fans, it's a space to celebrate victories, discuss strategies, and even engage in friendly rivalry. The instantaneous nature of social media amplifies the excitement around matches, transfers, and major tournaments, making it an integral part of the modern soccer landscape.
+
+
+
+## Introduction to Reddit
+
+```{python}
+#| echo: false
+from PIL import Image
+import matplotlib.pyplot as plt
+
+myImage2 = Image.open("../docs/img/soccer_reddit.png")
+
+plt.figure(figsize=(3, 3)) 
+
+plt.imshow(myImage2)
+plt.axis('off')
+
+plt.show()
+```
+*Picture from https://twitter.com/soccer_reddit*
+
+Reddit is a popular social media platform that is a vast collection of communities. Users from all over the world discuss and share content on a wide range of topics.Reddit epitomizes global interests, opinions, and discussions, making it an ideal platform for data analysis. Sports, especially soccer, feature prominently in its diverse community, drawing fans and enthusiasts to share their insights, analysis and predictions.
+
+## Project Overview
+
+```{python}
+#| echo: false
+from PIL import Image
+myImage3 = Image.open("../docs/img/soccer_subreddit.png")
+myImage3
+```
+*Picture from https://www.reddit.com/r/soccer/*
+
+This project draws on the vast and dynamic discussions about soccer in various Reddit communities. Our exploration is not just a study of the game of soccer, but a deep dive into the cultural, social, and emotional landscapes surrounding the game. At the core of our efforts is an understanding of the pulse of soccer fans around the world as captured in Reddit conversations.
+
+Our goal was to identify the soccer topics that people talk about the most in different subreddits, from tactics and league policy to fan culture and transfers, and how these topics resonate with the Reddit community. Another key goal was to capture the sentiment of soccer fans, especially for major events like the 2022 World Cup, and track how those sentiments evolve over time. We sought to dive into the nuances of online discourse and reveal the drivers of a post's popularity or controversy. This includes understanding what makes a post engaging or divisive among soccer fans. We are also interested in Reddit's broader patterns of activity in the soccer community, such as which days see the most interactions and how this relates to real-world soccer events like game days.
+
+Essentially, our project is an overview of the soccer-related digital footprint on Reddit. It seeks to analyze the collective voice of soccer fans around the world and gain insights into their preferences, emotions, and behaviors. This project not only enriches our understanding of soccer as a global phenomenon, but also demonstrates the power of online platforms like Reddit to shape and reflect public opinion and sentiment.
+
+
+## Project Topics  {.appendix}
+
+- EDA
+
+  1. 
+  - **Business Goal**: Evaluate the relative popularity of teams and leagues by ranking the number of posts published between January 2023 and March 2023.
+    
+  - **Technical Proposal**: Develop a manual dictionary that associates major team and league names with their respective subreddit counterparts. Extract Reddit posts from a diverse set of subreddits listed in the dictionary. Subsequently, calculate the post count for each subreddit and visualize the findings using a bar plot.
+
+   2. 
+  - **Business Goal**: Determine which days of the week see the most activity from soccer fans, and whether this is driven by match days.
+ 
+  - **Technical Proposal**: Get external soccer match schedule and data for the same time frame, filter and merge the Reddit activity data with the match schedule data based on the date. Count daily posts and comments in soccer subreddits, flag days with matches using the external database, and assess the relationship between match days and activity spikes. For visualization methods, illustrate the volume of posts/comments over time and compare average daily activity on match days versus non-match days.
+  
+  3. 
+  - **Business goal**: Identify what aspects of soccer are most frequently discussed in different subreddits and what kind of topics are most likely to acquire high scores.
+
+  - **Technical proposal**: Use NLP to identify the posts that mention different aspects of soccer, including tactics, league policies, transfers or fan culture. Then count the number of posts and calculate the average score of each aspect. Create several plots, like pie charts or bar plots, to visualize the count number and score of the most popular topics.
+
+
+
+- NLP
+
+  1. 
+  - **Business Goal**: Identify the teams or players linked to the highest levels of toxicity in Reddit conversations.
+  - Technical Proposal: Create a manual dictionary mapping major team and league names to their respective subreddit names. Gather Reddit posts from a variety of subreddits listed in the dictionary. Establish a processing pipeline to clean and tokenize the text of these posts. Train a toxicity content classifier using a labeled dataset obtained from Kaggle. Apply the trained model to the preprocessed posts and visualize the results using a bar plot.
+
+   2. 
+  - **Business Goal**: Determine if there is a relationship between the changes of sentiment in soccer subreddits and major events (e.g., wins, losses, transfers). 
+  - **Technical Proposal**: Match the Reddit data with key soccer events using dates and team/player mentions. Utilize NLP techniques to assign sentiment scores to each post and comment, and label the dataset with sentiment scores. Investigate sentiment before, during, and after major events. Display sentiment trends over time with event markers.
+
+  3. 
+  - **Business goal**: Examine how soccer fans feel about the 2022 World Cup, and how their feelings evolve over time.
+
+  - **Technical proposal**: First extract all the posts relevant to the 2022 World Cup from all the available records. Then apply sentiment analysis for each post to examine the feeling towards the World Cup. Finally track the sentiment over time to see how soccer fans’ feelings change.
+
+
+- Machine Learning
+
+   1. 
+  - **Business Goal**: Predict the Popularity of Reddit Posts in Soccer Subreddits, Considering Multiple Factors
+  - **Technical Proposal**: Collect Reddit posts from diverse soccer-related subreddits and analyze various factors, including time of day, day of the week, and the presence of URLs, among others, to forecast a post's popularity. Convert time-related data into numeric formats and convert categorical label variables, such as URL presence, into binary dummy variables. For the target column, establish a threshold, such as a specified number of comments, to distinguish between popular and non-popular posts, encoding it as a binary variable. Subsequently, develop a classification model to predict the likelihood of a post becoming popular upon submission to Reddit.
+
+   2. 
+  - **Business Goal**: Predict the outcome of upcoming games based on the sentiment or volume of the discussions before the games.
+  - **Technical Proposal**: Use historical game outcome records to serve as training labels for the model. Merge sentiment and volume metrics with historical game outcomes based on the date and teams playing, and select relevant features that contribute to predictive accuracy (e.g., sentiment score, volume of posts, time series data). Experiment with various ML algorithms (e.g., logistic regression, random forests, SVM, neural networks) to find the best performer, use cross-validation techniques to evaluate model performance. Evaluate the percentage of correct predictions.
+
+  3. 
+  - **Business goal**: Develop a machine learning-based solution to predict the controversiality of social media posts using their textual content and user engagement scores.
+
+
+  - **Technical proposal**: Implement a machine learning model that integrates Natural Language Processing to analyze the textual content of posts ('body') and numerical analysis of engagement scores. Utilize logistic regression to categorize posts into controversial or non-controversial, leveraging insights about the interplay between content and user interactions.
+
+  4. 
+  - **Business goal**: Determine whether unsupervised models can be utilized to divide the users into different fan bases.
+
+  - **Technical proposal**: Apply NLP to extract the posts related to soccer. Then convert the body message into multiple dummy variables indicating the presence and frequency of certain words and topics. Leverage clustering algorithms to divide the unique users into different groups and identify the common features within each group. Examine whether these groups are consistent with the existing fan bases in the world.
+
