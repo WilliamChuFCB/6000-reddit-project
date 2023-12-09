@@ -169,3 +169,14 @@ Since only 2 outcome: win or loss are used in this machine learning study, logis
 with Image.open("../../data/plots/score_ml_cm.PNG") as img1:
     display(img1)
 ```
+
+
+## Code
+
+[Popularity prediction](https://williamchu.georgetown.domains/6000project/code_pages/comments_prediction.html)
+
+[Controversiality prediction](https://williamchu.georgetown.domains/6000project/code_pages/predict_controversiality.html)
+
+[Clustering analysis](https://williamchu.georgetown.domains/6000project/code_pages/ml_clustering.html)
+
+[Match result prediction](https://williamchu.georgetown.domains/6000project/code_pages/ml_comments_match.html)

@@ -169,3 +169,10 @@ with Image.open("../../data/plots/worldcup_weekly_sentiment_post_counts.png") as
 
 The time series plot shows no distinct trend in post volume throughout the period. The numbers of positive and negative posts paralleled the overall post trend, while the count of neutral posts remained low and steady. The proportion of positive posts was relatively unchanged, indicating that general attitudes towards the World Cup did not significantly fluctuate over time.
 
+## Code
+
+[Toxic post analysis](https://williamchu.georgetown.domains/6000project/code_pages/nlp_toxic.html)
+
+[Sentiment related to matches](https://williamchu.georgetown.domains/6000project/code_pages/nlp_comments_match.html)
+
+[Sentiment analysis for 2022 World Cup](https://williamchu.georgetown.domains/6000project/code_pages/nlp_world_cup.html)
