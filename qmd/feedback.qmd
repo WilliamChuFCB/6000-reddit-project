@@ -1,0 +1,86 @@
+---
+title: "Feedback Discussion - Reddit Data about Soccer"
+author:
+  - name: Jingda Yang, Wendi Chu, Haiyu Xiao, Tingsong Li
+
+execute:
+  echo: false
+
+format:
+  html:
+    embed-resources: true
+    self-contained: true
+    page-layout: full
+    fig-cap-location: bottom
+    toc: true
+    toc-location: left
+    toc-title: Contents
+    #tbl-cap-location: bottom
+---
+
+## Project Plans
+
+We haven't got any additional suggestions regarding our project plan.
+
+## EDA work
+   1. 
+  - Goal 1: Try to bring a time component to this goal. Otherwise it is just a count exercise and that is not complex enough for the project.
+  - **Feedback discussion**: This suggestion provides valuable information to the audience. We took it by presenting a line plot that illustrates how the number of comments changes over time, specifically, by the hour.
+
+   2. 
+  - In addition to just the word counts for the word cloud, I am interested in seeing the TF-IDF in the future!
+  - **Feedback discussion**: We employed the significance of words as determined by the TF-IDF model rather than simply tallying word occurrences. In contrast to the original plot, this approach highlights more meaningful and relevant words.
+
+   3. 
+  - Your analysis of match to comments is good, but you only took the first step. You referenced correlation, you should continue down that track. Can you give me a metric? 
+  - **Feedback discussion**: To continue down on the track of looking for the correlation, some kind of metric should also be provided. Indeed, to determine if there is a strong correlation between the number of matches and the number of comments for each day, a statistic result should be helpful. So first, the correlation coefficient is calculated, then, a scatter plot with a regression line is also shown.
+   
+   4. 
+  - You should explain the gilded term for the reader. 
+  - **Feedback discussion**: In Reddit, "gilding" refers to the act of giving an award to a user's post or comment as a token of appreciation or recognition. We have already added this explanation in the EDA page.
+
+## NLP work
+
+   5. 
+  - It could be interesting to show a similar chart and have a positive/negative ratio for the lines
+  - **Feedback discussion**: It could be interesting to show a similar chart and have a positive/negative ratio for the lines, so a similar chart where the line showing the ratio is added. The plot of single line of the positive/negative comments ratio can be more straightfoward than the plot of 2 lines of both positive and negative comments.
+     
+
+## ML work
+
+   6. 
+  - Worth discussing the words most important in determining controversiality.
+  - **Feedback discussion**: The approach we use - combining Tokenizer, CountVectorizer, and IDF - inherently loses the context and order of words, converting them into high-dimensional vectors that represent frequency rather than order context. This creates challenges in accurately interpreting the impact of individual words. In addition, focusing on individual words may oversimplify the complex relationships in these vectors, thus detracting from our primary goal of evaluating overall model performance and predictive capability. Considering these factors, as well as the potential for misinterpretation and bias, I believe that our analyses would benefit from focusing on a broader range of performance metrics as well as the effectiveness of data preprocessing and modeling methods.
+
+   7. 
+  - You could also plot with t-SNE.
+  - **Feedback discussion**: This is a great suggestion for visualizing the clustering result. t-SNE is a non-linear dimensionality reduction technique that's particularly good at preserving the local structure of the data. However, it seems that PySpark doesn't natively support t-SNE. When we converted the dataframe to pandas in order to perform t-SNE analysis, my kernel struggled with the large amount of data. We will try to complete this part in the future development of our project.
+
+   8. 
+  - The calculation at the individual comment level may make it tough to predict effectively. I might think of this as an analysis of the group of comments the day before a match as a group of comments or single large statement and then use characteristics about those comments to predict game outcome. It could be like a predict-o-meter from fans. 
+  - **Feedback discussion**: Regarding this, the best way to work around is to look for the comments about 1 day or 12 hours before a match, extract the text, score, controversy as features to predict the incoming match result. This still needs some text filtering and hyper-parameter tuning to achieve a effective prediction.
+
+## Website/results
+   9. 
+  - Agree with the peer group that you should work on improved page structure and usability. You made your code embedded into the website, which is fine for now but I would encourage you to make it more professional for the next deliverables. 
+  - **Feedback discussion**: We already use qmd file to generate html file, so the new page is clean and easy to read. We also add a navigation bar to make it easier to navigate between pages.
+
+
+## Peer feedback
+
+   10. 
+  - Introduce your tables, and what the table means
+  - **Feedback discussion**: To provide more clarity and context for our tables, we introduced each table and explain what it represents. This will help our audience better understand the information presented.
+
+   11. 
+  - Interpret the plot and state the plot meaning related to your project topics.
+  - **Feedback discussion**: Under every plots, we have added detailed interpretation to explain what they mean and their roles in answering the topic related questions. The plots are pretty self-explanatory with the titles and labels, but to reduce any possible confusions that a non data scientist may have, some non-technical interpretations and conclusions are added after receiving the feedback.
+  
+   12. 
+  - Unify the plot format, like the title or text size.
+  - **Feedback discussion**: Great point, unity of formats is indeed very important to the reading experience. To address to this feeback, we used the same fontsize for the plots' titles and labels (except for certain plots with intensive information), including the axis labels to make the plots consistent, as well as similar color palettes to make them easier to read.
+  
+   13. 
+  - Include more stopwords in your word cloud EDA. In the plot, there are lots of meaningless words that should be cleaned in the stopwords. The analysis of this part will be more precise after the improvement.
+  - **Feedback discussion**: We implemented the stopwords from NLTK package and customized our own stopwords. It effectively removes the words with no sense and makes audiences concentrate on more important information.
+
