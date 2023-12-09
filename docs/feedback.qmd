@@ -23,11 +23,11 @@ format:
 ## EDA work
    1. 
   - Goal 1: Try to bring a time component to this goal. Otherwise it is just a count exercise and that is not complex enough for the project.
-  - **Feedback**:
+  - **Feedback**: This suggestion provides valuable information to the audience. We took it by presenting a line plot that illustrates how the number of comments changes over time, specifically, by the hour.
 
    2. 
   - In addition to just the word counts for the word cloud, I am interested in seeing the TF-IDF in the future!
-  - **Feedback**:
+  - **Feedback**: We employed the significance of words as determined by the TF-IDF model rather than simply tallying word occurrences. In contrast to the original plot, this approach highlights more meaningful and relevant words.
 
    3. 
   - Your analysis of match to comments is good, but you only took the first step. You referenced correlation, you should continue down that track. Can you give me a metric? 
