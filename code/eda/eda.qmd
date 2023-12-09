@@ -207,3 +207,15 @@ with Image.open("../../data/plots/soccer_topic_bar3.png") as img11:
 ```
 
 In Reddit, "gilding" refers to the act of giving an award to a user's post or comment as a token of appreciation or recognition. Unlike the average score distribution of each topic, the gild percentage of the topics show greater variety. Posts related to Player Performances or Match Analysis and Previews tend to have higher probabilities to be gilded. Also, it is interesting that although the number of posts about Match Analysis and Previews are smaller than other topics, the gild percentage of this topic is the highest among all.
+
+## Code
+
+[League and club popularity](https://williamchu.georgetown.domains/6000project/code_pages/popularity.html)
+
+[Comment count by hour](https://williamchu.georgetown.domains/6000project/code_pages/count_hour.html)
+
+[Word cloud](https://williamchu.georgetown.domains/6000project/code_pages/word_cloud.html)
+
+[Comments and match days](https://williamchu.georgetown.domains/6000project/code_pages/eda_comments_match.html)
+
+[Popular topics](https://williamchu.georgetown.domains/6000project/code_pages/eda_soccer_topic.html)
