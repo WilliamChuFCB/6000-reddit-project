@@ -1,0 +1,129 @@
+---
+title: "Conclusion - Reddit Data about Soccer"
+author:
+  - name: Jingda Yang, Wendi Chu, Haiyu Xiao, Tingsong Li
+
+execute:
+  echo: false
+
+format:
+  html:
+    embed-resources: true
+    self-contained: true
+    page-layout: full
+    fig-cap-location: bottom
+    toc: true
+    toc-location: left
+    toc-title: Contents
+    #tbl-cap-location: bottom
+---
+
+## 1. Project overview
+
+ In this project, we focused on exploring and drawing conclusions in 10 topics around soccer, using the Reddit Archive big data. By utilizing big data processing and data analyzing techniques, we managed to perform interesting and meaningful explorations from people's comments, such as looking for the most popular clubs, examining people's reaction to matches, and even predicting the potential trends on the soccer section of Reddit. Specifically, we implemented exploratory data analysis, natural language processing and machine learning as our data analysis techniques to discover these findings.
+
+## 2. Conclusions of each part
+
+### EDA (Exploratory Data Analysis)
+
+The Reddit data on soccer subreddits reveals variations in activity levels among different leagues, with the Premier League and MLS having highest engagement. The most popular clubs like Barcelona and AC Milan generate active discussions, which primarily focus on collective experiences, strategies, and clubs rather than individual players. The analysis of Reddit comments and soccer match data indicates a correlation between comments and matches on certain days, particularly on weekends. Furthermore, six common topics related to soccer are identified, with Player Performances being the most discussed. Surprisingly, Match Analysis and Previews have a high gild percentage despite fewer posts, suggesting a high level of appreciation and engagement in that category.
+
+```{python, echo=FALSE}
+#| label: fig-polar1
+#| fig-cap: Daily Number of Reddit Comments vs. Number of Matches
+from PIL import Image
+with Image.open("../data/plots/daily_comments_matches.png") as img1:
+    display(img1)
+```
+
+
+### NLP (Natural Language Processing)
+
+The analysis of toxicity levels in soccer club subreddits indicates that Atletico's subreddit has the highest toxicity, which may be due to this club's violent reputation. Additionally, toxicity levels peak on weekends and mid-week, corresponding with league and UEFA games, but decrease during national team matches. This study investigates sentiment in Reddit comments from Arsenal fans before, during, and after matches. It shows that comment numbers are particularly higher on match days, but the sentiment of these comments are generally more negative, even if the team wins. As for the analysis of sentiment in Reddit comments related to the 2022 World Cup, it reveals that there was notably higher post volume about players compared to other sub-topics. Posts related to the champion had a greater share of positive sentiment, while referee-related posts skewed negative, suggesting dissatisfaction with referees' decisions. Interestingly, the sentiment analysis shows that general attitudes towards the World Cup did not significantly fluctuate over time.
+
+```{python, echo=FALSE}
+#| label: fig-polar2
+#| fig-cap: Daily Sentiment of Arsenal Fans vs. Arsenal Match Results
+from PIL import Image
+with Image.open("../data/plots/arsenal_match_sentiment.png") as img1:
+    display(img1)
+```
+
+```{python, echo=FALSE}
+#| label: fig-polar3
+#| fig-cap: Category-wise Sentiment Analysis about 2022 World Cup
+from PIL import Image
+with Image.open("../data/plots/worldcup_sentiment_count_by_category.png") as img1:
+    display(img1)
+```
+
+### ML (Machine Learning)
+
+This study predicts the popularity of Reddit posts in the soccer subreddit with an accuracy of over 88%. The most influential factor in determining post popularity is the 'score' factor (likes minus dislikes), followed by secondary factors like the number of crossposts and title length. In the second part, this study aims to predict the controversiality of social media posts using their textual content and user engagement scores. Two logistic regression models, Model 1 and Model 2, were developed with different hyperparameter configurations. Model 1 is more effective at reducing false positives and is suitable for avoiding mislabeling non-controversial posts, while Model 2 is more sensitive to controversial posts and may be useful when identifying controversial content is critical. As for clustering analysis, the Reddit comments about soccer are divided into five clusters, with one cluster encompassing the majority of comments, particularly related to topics like 'VAR,' 'transfer,' 'World Cup,' and 'coach.' The remaining four clusters are associated with 'Ligue 1,' 'Germany,' 'Europa,' and 'Ballon' respectively. In the last part of machine learning, this study explores the use of Reddit comments and scores from fans of three popular soccer teams to predict the match results of their favorite teams. By employing logistic regression on comment scores and vectorized text bodies, the model achieves an accuracy of around 70% in forecasting match outcomes, with higher precision in predicting wins compared to losses, which suggests that fan opinions on Reddit can provide some insight into match outcomes.
+
+
+```{python, echo=FALSE}
+#| label: fig-polar4
+#| fig-cap: Feature Importance of Post Popularity Classification Model
+from PIL import Image
+with Image.open("../data/plots/feature_importance.png") as img1:
+    display(img1)
+```
+
+
+```{python, echo=FALSE}
+#| label: fig-polar5
+#| fig-cap: Average Feature Values per Cluster
+from PIL import Image
+with Image.open("../data/plots/cluster_feature_heatmap.png") as img1:
+    display(img1)
+```
+
+
+## 3. Next steps in the future
+Looking into future, there are several updates that can be made to our project. Due to the limited resources on the big data processing stage, we could still perform more detailed data cleaning, filtering and extracting on the original big data set, so that for each topic a more accurate data table can be used. For instance, we explored what are the most popular clubs on Reddit, and the number of comments from each club's subreddit were counted. In the future, the comments from the big r/soccer subreddit can also be used for this topic, as the flair information in the original dataset can be used to determine a fan. However, this require more data cleaning and more time, so it can be an improvement in the next steps.
+
+The same applies to the topic where machine learning methods are utilized to predict the trends in the comments or the match results. Since a good machine learning model requires reliable data, decent feature engineering and necessary hyper-parameter tuning processes, it takes resources to perform these steps. Also, training model on big data is time consuming as well, so as for future steps, the goal could be spending appropriate time and resources on finding some high performance machine learning model on the Reddit Archive data set.
+
+## 4. Appendix
+
+### Updates to intermediate deliverables
+
+#### EDA work
+   1. 
+We presenting a line plot that illustrates how the number of comments changes over time, specifically, by the hour.
+
+   2. 
+We employed the significance of words as determined by the TF-IDF model rather than simply tallying word occurrences.
+
+   3. 
+The correlation coefficient is calculated, then, a scatter plot with a regression line is also shown.
+   
+   4. 
+We added gilded term explanation in the EDA page.
+
+#### NLP work
+
+   5. 
+A similar chart where the line showing the ratio is added.
+
+
+#### Website/results
+   6. 
+We used qmd file to generate html file, so the new page is clean and easy to read. We also add a navigation bar to make it easier to navigate between pages.
+
+   7.  
+We introduced each table and explain what it represents. This will help our audience better understand the information presented.
+
+   8.  
+We have added detailed interpretation to explain what they mean and their roles in answering the topic related questions.
+
+   9.  
+We used the same fontsize for the plots' titles and labels (except for certain plots with intensive information), including the axis labels to make the plots consistent, as well as similar color palettes to make them easier to read.
+  
+   10.  
+We implemented the stopwords from NLTK package and customized our own stopwords.
+
+### LLM usage acknowledgement
+
+We used LLM tools for grammar checking as well as word spelling in the introduction and conclusion sections.

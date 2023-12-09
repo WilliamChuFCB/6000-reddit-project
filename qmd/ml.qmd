@@ -1,0 +1,182 @@
+---
+title: "ML - Reddit Data about Soccer"
+author:
+  - name: Jingda Yang, Wendi Chu, Haiyu Xiao, Tingsong Li
+
+execute:
+  echo: false
+
+format:
+  html:
+    embed-resources: true
+    self-contained: true
+    page-layout: full
+    fig-cap-location: bottom
+    toc: true
+    toc-location: left
+    toc-title: Contents
+---
+
+
+
+- Topics:
+
+  1. 
+  - Business Goal: Predict the popularity of reddit Posts in soccer subreddit with various factors.
+  - Technical Proposal: Gather Reddit posts from a soccer subreddit. Establish a processing pipeline to vectorize and train the dataset with different factors related to the post. Use pyspark machine learning package to train a random forest classifier to predict if a post can have more than 20 posts using a grid map and cross validation. Apply the trained model to the test set for prediction and get the feature importance and visualize the results using a bar plot.
+
+  2. 
+  - Business Goal: Predict the controversiality of social media posts using their textual content and user engagement scores.
+  - Technical Proposal: Implement a machine learning model that integrates NLP to analyze the body and numerical analysis of engagement scores. Utilize logistic regression to categorize posts into controversial or non-controversial, leveraging insights about the relationship between content and user interactions.
+
+  3. 
+  - Business goal: Determine whether unsupervised models can be utilized to divide the users into different clusters.
+  - Technical proposal: Apply NLP to extract the posts related to soccer. Then convert the body message into multiple dummy variables indicating the presence and frequency of certain words and topics. Leverage clustering algorithms to divide the unique users into different groups and identify the common features within each group. 
+
+
+  4. 
+  - Business Goal: Predict the outcome of matches based on the text and score of comments on the same day.
+  - Technical proposal: Use historical game outcome records to serve as training labels for the model. Merge comments text and scores with historical game outcomes based on the date and teams playing, and perform text vectorization on the comments. Experiment with various ML algorithms (e.g., logistic regression, random forests, SVM, neural networks) to find the best performer and predict on a testing set. Evaluate the percentage of correct predictions.
+
+
+## Executive summary
+
+### Business Goal 1:
+
+The study predicts the popularity of posts in soccer subreddit with accuracy higher than 88%. It reveals that factor score stands out of other factors. Other factors such as title length and number of crossposts also play a role in determine the popularity but publish time and adult contents are not helpful for predictions.
+
+### Business Goal 2:
+
+Predict the controversiality of social media posts using their textual content and user engagement scores. This study offers a tool to help determine what kinds of posts typically trigger a lot of debate and conversation. This can be helpful for online forums that want to control or monitor content that might trigger argumentative debates.
+
+### Business Goal 3:
+
+Reddit comments from the 'soccer' subreddit have been clustered into five distinct groups based on keyword frequency. The clustering reveals an imbalance, with the first group encompassing most of the records. The remaining four groups distinctly correlate with specific keywords: 'ligue 1', 'germany', 'europa', and 'ballon'. This indicates diverse user interests within the subreddit, focused on different aspects of soccer.
+
+### Business Goal 4:
+
+Reddit comments of teams' fans can be valuable for predicting the match score of their favorite team. The study reveals that using the comments text and the scores can achieve over 70% of accuracy when forecasting the result of the match, therefore one can moderately tell how a soccer match went based on the fans' opinions.
+
+
+## Analysis report
+
+### Business Goal 1: Predict the popularity of reddit Posts in soccer subreddit with various factors.
+
+In this study, we aim to develop a machine learning model that predicts the popularity of Reddit posts based on various factors, with popularity defined as receiving more than 20 comments per post. This model is intended to identify key factors that contribute to increasing comment activity, serving as a guide for Reddit users to enhance the popularity of their posts. Our chosen methodology utilizes the random forest classifier, implemented through the "pyspark.ml" package. The process began with the collection of submission data from the soccer subreddit. Key features included in the analysis were post length and a binary indicator for nighttime posting. A pipeline was established to vectorize the training data and to construct the random forest model. Grid search and cross-validation techniques were employed to optimize the model, leading to the selection of a random forest model with 50 trees and a maximum depth of 15. The model demonstrated a high level of accuracy, achieving a test accuracy of 0.8893. In terms of feature importance, which is based on the reduction in impurity, the 'score' factor (likes minus dislikes) emerged as the most influential. Secondary factors, such as the number of crossposts and title length, had a significant but lesser impact. Other contributing factors included posts authored by administrators, those containing videos, or with enabled previews, each showing a moderate increase in popularity. Conversely, the time of publishing and the presence of adult content were found to be less influential in determining post popularity.
+
+```{python, echo=FALSE}
+#| label: fig-polar1
+#| fig-cap: Feature Importance
+from PIL import Image
+with Image.open("../data/plots/feature_importance.png") as img1:
+    display(img1)
+```
+
+In terms of feature importance, which is based on the reduction in impurity, the 'score' factor (likes minus dislikes) emerged as the most influential. Secondary factors, such as the number of crossposts and title length, had a significant but lesser impact. Other contributing factors included posts authored by administrators, those containing videos, or with enabled previews, each showing a moderate increase in popularity. Conversely, the time of publishing and the presence of adult content were found to be less influential in determining post popularity.
+
+
+### Business Goal 2: Predict the controversiality of social media posts using their textual content and user engagement scores.
+
+The Business goal and Technical proposal have changed a bit from the previous one. The original Business goal was **Determine the topics and key words which make a post more controversial**. Here only the body and score were used to predict controversy and logistic regression was used. The logistic regression approach provided a clear baseline with the advantage of interpretability. Initially, the data was filtered out and the body of each post was converted from list to vector, next developed two logistic regression models with distinct hyperparameter configurations.
+
+* Model 1: Featured a regularization parameter (regParam) of 0.1 and a maximum iteration count (maxIter) of 10.
+* Model 2: Had a regParam of 0.01 and maxIter of 20.
+
+The models were evaluated on several metrics: **ROC AUC, Accuracy, F1 Score, Confusion Matrix.**
+```{python, echo=FALSE}
+#| label: tbl-planets2
+#| tbl-cap: Classification Report for Test Data
+import pandas as pd
+df = pd.read_csv('../data/csv/model_metrics_controversial.csv', index_col=0)
+df = df.head()
+df
+```
+
+
+```{python, echo=FALSE}
+#| label: fig-polar3
+#| fig-cap: "Confusion Matrix for Model 1 and Model 2"
+#| fig-subcap: 
+#|   - "Confusion Matrix for Model 1"
+#|   - "Confusion Matrix for Model 2"
+#| layout-ncol: 2
+from PIL import Image
+with Image.open("../data/plots/model_1_cm.png") as img:
+    display(img)
+with Image.open("../data/plots/model_2_cm.png") as img2:
+    display(img2)
+```
+
+From Table 1 and Figure 2, model 1 has proven to be more effective in reducing false positives. Therefore model 1 is more suitable for avoiding the mislabeling of uncontested posts. Model 1 also has a higher ROC AUC score, Accuracy, and F1 score.
+  
+Model 1 is more effective at reducing false positives and is therefore suitable for avoiding mislabeling non-controversial posts.
+Model 2 is more sensitive to controversial posts and may be more useful when missing controversial posts could have a significant impact.
+  
+The models can guide content management strategies, and provide information for user engagement strategies. The models can also identify controversial content based on text analytics, which may help categorize the management of posts in forums.
+  
+### Business Goal 3: Leverage unsupervised models to divide the users into different clusters.
+
+In this section, Reddit comments containing specific soccer-related keywords are selected. The study generates multiple numeric variables to quantify the frequency of these keywords within each comment. K-means algorithm is performed based on this filtered data after vectorization and standardization. In order to choose the optimal value of k in this algorithm, two different evaluation methods have been utilized, including Silhouette method and elbow method.
+
+```{python, echo=FALSE}
+#| label: fig-polar4
+#| fig-cap: Silhouette Method for Optimal k
+from PIL import Image
+with Image.open("../data/plots/silhouette_plot.png") as img1:
+    display(img1)
+```
+
+```{python, echo=FALSE}
+#| label: fig-polar5
+#| fig-cap: Elbow Method for Optimal k
+from PIL import Image
+with Image.open("../data/plots/elbow_plot.png") as img1:
+    display(img1)
+```
+
+Based on the two line plots, the Silhouette method recommends k=5, whereas the elbow method suggests k=6. After considering both methods, k=5 is ultimately selected as the optimal value.
+
+```{python, echo=FALSE}
+#| label: tbl-planets6
+#| tbl-cap: Number of Comments Within Each Cluster
+import pandas as pd
+df = pd.read_csv('../data/csv/cluster_count.csv')
+df = df.head()
+df
+```
+
+The table above displays the distribution of each cluster, revealing a noticeable imbalance as the first cluster comprises the vast majority of comments. To further assess the clustering outcome, average feature values are computed for each cluster, and the heatmap depicting these averages is presented below.
+
+```{python, echo=FALSE}
+#| label: fig-polar7
+#| fig-cap: Cluster Feature Heatmap
+from PIL import Image
+with Image.open("../data/plots/cluster_feature_heatmap.png") as img1:
+    display(img1)
+```
+
+This heatmap illustrates that certain clusters have significantly larger average values for specific features compared to others. Notably, the four smaller clusters respectively show the highest average values in 'ligue 1,' 'germany,' 'europa,' and 'ballon,' indicating a clear association between these clusters and these particular topics. As for the largest cluster, we can observe elevated values in 'var,' 'transfer,' 'world_cup,' and 'coach,' indicating the specific areas of interest for users within this cluster. This result demonstrates the effectiveness of the k-means clustering method in identifying key features and categorizing Reddit comments based on specific characteristics.
+
+### Business Goal 4: Predict the outcome of matches based on the text and score of comments on the same day.
+
+Three most popular teams are chosen to retrieve the comments of their fans on a matchday, and the match result of the team on that day are also recorded. The cleaned comments text body along with the comments' score are input features, where the training and predicting labels are the outcome of the match on the day the comments were made. Prior to the actual machine learning section, a few preparations are done on this dataset, including vectorizing the text bodies using tokenizer and hashing into a new feature, transforming the outcomes into 1s (win) and 0s (loss), and combining the new feature and the score of each comment into the correct traning feature.
+
+Since only 2 outcome: win or loss are used in this machine learning study, logistic regression is the model to be trained. After the model is trained on the comment scores and the vectorized comments texts, it can then predict on the testing features. According the results of the measurements, the accuracy, precision and recall of the predictions compared to the testing labels are all around 0.7, which is a bit disappointing for a binary classification learning. According to the confusion matrix, it seems that the model is good at predicting actual wins, however when predicting losses the performance is not quite good. Thus we can conclude that the model can moderately tell the outcome of a match based on the comments and their scores.
+
+```{python, echo=FALSE}
+#| label: fig-polar9
+#| fig-cap: Feature Importance
+with Image.open("../data/plots/score_ml_cm.PNG") as img1:
+    display(img1)
+```
+
+
+## Code
+
+[Popularity prediction](https://williamchu.georgetown.domains/6000project/code_pages/comments_prediction.html)
+
+[Controversiality prediction](https://williamchu.georgetown.domains/6000project/code_pages/predict_controversiality.html)
+
+[Clustering analysis](https://williamchu.georgetown.domains/6000project/code_pages/ml_clustering.html)
+
+[Match result prediction](https://williamchu.georgetown.domains/6000project/code_pages/ml_comments_match.html)

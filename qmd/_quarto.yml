@@ -1,0 +1,29 @@
+project:
+  type: website
+
+website:
+  navbar:
+    background: dark
+    search: true
+    left:
+      - href: introduction.qmd
+        text: Introduction
+      - href: eda.qmd
+        text: EDA
+      - href: nlp.qmd
+        text: NLP
+      - href: ml.qmd
+        text: ML
+      - href: feedback.qmd
+        text: Feedback Discussion
+      - href: conclusion.qmd
+        text: Conclusion
+
+
+format:
+  html:
+    theme: cosmo
+    css: style.css
+    toc: true
+
+editor: visual

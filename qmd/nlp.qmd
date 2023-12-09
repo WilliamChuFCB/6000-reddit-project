@@ -1,0 +1,178 @@
+---
+title: "NLP - Reddit Data about Soccer"
+author:
+  - name: Jingda Yang, Wendi Chu, Haiyu Xiao, Tingsong Li
+
+execute:
+  echo: false
+
+format:
+  html:
+    embed-resources: true
+    self-contained: true
+    page-layout: full
+    fig-cap-location: bottom
+    toc: true
+    toc-location: left
+    toc-title: Contents
+---
+
+
+
+- Topics:
+
+  1. 
+  - Business Goal: Identify the teams linked to the highest levels of toxicity in Reddit conversations.
+  - Technical Proposal: Create a manual dictionary mapping major team and league names to their respective subreddit names. Gather Reddit posts from a variety of subreddits listed in the dictionary. Establish a processing pipeline to clean and tokenize the text of these posts. Train a toxicity content classifier using a labeled dataset obtained from Kaggle. Apply the trained model to the preprocessed posts and visualize the results using a bar plot.
+
+   2. 
+  - Business Goal: Determine if there is a relationship between the changes of sentiment in soccer subreddits and match results (e.g., wins, losses). 
+  - Technical Proposal: Match the Reddit data with key soccer events using dates and team/player mentions. Utilize NLP techniques to assign sentiment scores to each post and comment, and label the dataset with sentiment scores. Investigate sentiment before, during, and after major events. Display sentiment trends over time with event markers.
+
+  3. 
+  - Business goal: Examine how soccer fans feel about the 2022 World Cup, and how their feelings evolve over time.
+
+  - Technical proposal: First extract all the posts relevant to the 2022 World Cup from all the available records. Then apply sentiment analysis for each post to examine the feeling towards the World Cup. Finally track the sentiment over time to see how soccer fans' feelings change.
+
+## Executive summary
+
+### Business Goal 1:
+
+The study reveals varying toxicity levels in soccer club subreddits, with Atletico's having the highest, possibly due to the club's violent reputation. Toxicity peaks on weekends and mid-week, aligning with league and UEFA games, but dips during national team matches, indicating fluctuating fan behavior.
+
+### Business Goal 2:
+
+The NLP analysis proves that there are relationships between the sentiment scores of fans' comments and the match results. The analysis examines the sentiment situation of fans of Arsenal, Manchester United and Chelsea, and the results indicate that the fans of all three clubs were showing mostly negative moods, especially when the team lost or tied in a match.
+
+### Business Goal 3:
+
+This NLP analysis suggests that of all the sub-topics about the World Cup 2022, people discussed the players most frequently. Additionally, a large amount of people might not be satisfied with certain judgments from the referees during the World Cup. It is also noticeable that people's general attitude towards the World Cup 2022 did not change much over time.
+
+## Analysis report
+
+### Business Goal 1: Identify the teams linked to the highest levels of toxicity in Reddit conversations.
+
+[External Data Source: Toxic Comment Classification](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/overview)
+
+To achieve this business goal, we trained the model using a Wikipedia comments dataset, which has been evaluated by human raters for toxic behavior. There are six different types of toxicity, and we assigned toxicity scores as follows: toxic (1 point), insult (2 points), obscene (2 points), identity hate (3 points), threat (3 points), and severe toxicity (4 points). We utilized a pipeline to process the text to ensure efficient flow and processing of textual data for classification purposes. The pipeline outlined is designed for text classification, starting with the DocumentAssembler which prepares raw text for processing. It includes a SentenceDetector and Tokenizer for breaking down the text into sentences and tokens, respectively. Sentence embeddings are generated using the UniversalSentenceEncoder, which are then fed into the MultiClassifierDLApproach for classification.
+
+```{python, echo=FALSE}
+#| label: tbl-planets1
+#| tbl-cap: Average Toxic Score of Main Club Subreddits
+import pandas as pd
+import numpy as np
+
+df1 = pd.read_csv('../data/csv/toxic_club.csv')
+df1
+```
+
+According to the classification result, the first tabel reveals varying levels of toxicity in comments across soccer club subreddits, with atletico's subreddit showing the highest average toxicity score (1.172) and schalke04's the lowest (1.095). It is understandable the Atletico has the highest toxicity score since the it is widely known as one of the most violent clubs in Europe.
+
+```{python, echo=FALSE}
+#| label: tbl-planets2
+#| tbl-cap: Average Toxic Score of Different Days of Week
+import pandas as pd
+import numpy as np
+
+df2 = pd.read_csv('../data/csv/toxic_week.csv')
+df2
+```
+
+We also found that different days of week have different level of toxicity score. On weekends, the toxic comments are more than weekdays since league games are played on weekends so people tend to have hostile comments during and after games. It is noticeable that the scores on Wednesday and Thursday is also relatively higher because UEFA Champions League and Europa League played on these days.
+
+```{python, echo=FALSE}
+#| label: fig-polar1
+#| fig-cap: Average Toxic Score Change (Jan 2023 - Mar 2023)
+from PIL import Image
+with Image.open("../data/plots/toxic_date.png") as img1:
+    display(img1)
+```
+
+According to the lineplot, the weekly periodic pattern is obvious, which has been proved by the table of toxicity score for different days of week. Instead of club games, national team games were held from March 20 to March 28 so the toxicity is fairly low during this time.
+
+
+### Business Goal 2: Determine if there is a relationship between the changes of sentiment in soccer subreddits and match results (e.g., wins, losses).
+
+[External Data Source: Match Result Data](https://www.espn.com/soccer/team/results/_/id/359/arsenal)
+
+To implement this task, first match the Reddit data of the most commented clubs with soccer matches result data using dates. Utilize NLP techniques to assign sentiment scores to each post and comment, and label the dataset with sentiment scores. Investigate sentiment before, during, and after matches. Display sentiment trends over time with event markers and align with match results to study the relationship between these two events.
+
+```{python, echo=FALSE}
+#| label: fig-polar2
+#| fig-cap: Sentiment of Arsenal Fans
+from PIL import Image
+with Image.open("../data/plots/arsenal_match_sentiment.png") as img1:
+    display(img1)
+```
+
+This is a combined line and bar plot, showing the number of comments from Arsenal fans of positive and negative sentiments as lines, and the match result as bars (also showing the average number of positive and negative comments on matchdays). 
+
+We can draw some interesting findings from this sentiment analysis: First, on the date when there was a match for Arsenal the comments number are much higher than the days when there was no match; Second, Arsenal fans tend to have rather balanced sentiments in their comments when there is no matches, however when Arsenal lost or draw a game, the number of negative comments are always higher than the positive comments, many times much higher. Even when Arsenal won, the fans did not really show much more positivity, sometimes even more negative when a match was won. Consider Arsenal has historically not been doing great during January to March, as they lost their leading position in the premier league in this time in 2023, it is understandable that their fans are not very optimistic.
+
+It could be interesting to have a positive/negative ratio for the lines, so a similar chart where the line showing the ratio is added. The plot of single line of the positive/negative comments ratio can be more straightfoward than the plot of 2 lines of both positive and negative comments.
+
+```{python, echo=FALSE}
+#| label: fig-polar3
+#| fig-cap: Sentiment Ratio of Arsenal Fans
+from PIL import Image
+with Image.open("../data/plots/arsenal_match_sentiment_ratio.png") as img1:
+    display(img1)
+```
+
+This map represents the ratio of number of positive comments to negative comments on each day for Arsenal fans, along with the match results for Arsenal. In this plot, a similar interesting finding is that the days that have the lowest sentiment ratio are always the days that the team lost the match or had a draw. This is a reasonable result, since a bad losing day will make the fans upset. However, it is also found that a winning match day does not always generate a good sentiment ratio, and the highest ratio often happends on non-match days. We can infer from this result that, at least for Arsenal fans, the sentiment is more normal or positive on non-match days. Even if the team is winning, the fans might still be upset about the team's performance.
+
+### Business Goal 3: Examine how soccer fans feel about the 2022 World Cup, and how their feelings evolve over time.
+
+This section analyzes sentiment over time for Reddit comments related to the 2022 World Cup. Firstly, a regex pattern, defined by key words, filters relevant posts. Then, three dummy variables were introduced to determine if posts are related to champions, players, or referees. A pre-trained sentiment analysis model was employed to categorize the sentiment of each post. Here is a resulting cross-tabulation showing the post counts across sentiment categories within each World Cup sub-topic.
+
+```{python, echo=FALSE}
+#| label: tbl-planets3
+#| tbl-cap: Cross-tabulation of Sentiment Analysis about the World Cup
+import pandas as pd
+import numpy as np
+
+df3 = pd.read_csv('../data/csv/worldcup_count_table.csv')
+df3
+```
+
+A grouped barplot is also created to visualize the sentiment by category. 
+
+```{python, echo=FALSE}
+#| label: fig-polar5
+#| fig-cap: Category-wise Sentiment Analysis about the World Cup
+from PIL import Image
+with Image.open("../data/plots/worldcup_sentiment_count_by_category.png") as img2:
+    display(img2)
+```
+
+This plot reveals a notably higher post volume about players compared to other sub-topics. Additionally, the champion-related posts had a greater share of positive sentiment, while referee-related posts skewed negative, hinting at dissatisfaction with referees' decisions.
+
+In the subsequent section, sentiment analysis was conducted on a weekly basis, calculating the total, positive, negative, and neutral post counts for each week within the timeframe. Here is a table summarizing this weekly data and a time series plot for visualization.
+
+```{python, echo=FALSE}
+#| label: tbl-planets4
+#| tbl-cap: Weekly Summary Data of Sentiment Analysis about the World Cup
+import pandas as pd
+import numpy as np
+
+df4 = pd.read_csv('../data/csv/worldcup_weekly_count.csv')
+df4
+```
+
+```{python, echo=FALSE}
+#| label: fig-polar6
+#| fig-cap: Weekly Sentiment Post Counts and Positive Percentage about the World Cup
+from PIL import Image
+with Image.open("../data/plots/worldcup_weekly_sentiment_post_counts.png") as img3:
+    display(img3)
+```
+
+The time series plot shows no distinct trend in post volume throughout the period. The numbers of positive and negative posts paralleled the overall post trend, while the count of neutral posts remained low and steady. The proportion of positive posts was relatively unchanged, indicating that general attitudes towards the World Cup did not significantly fluctuate over time.
+
+## Code
+
+[Toxic post analysis](https://williamchu.georgetown.domains/6000project/code_pages/nlp_toxic.html)
+
+[Sentiment related to matches](https://williamchu.georgetown.domains/6000project/code_pages/nlp_comments_match.html)
+
+[Sentiment analysis for 2022 World Cup](https://williamchu.georgetown.domains/6000project/code_pages/nlp_world_cup.html)
