@@ -114,9 +114,9 @@ Model 2 is more sensitive to controversial posts and may be more useful when mis
   
 The models can guide content management strategies, and provide information for user engagement strategies. The models can also identify controversial content based on text analytics, which may help categorize the management of posts in forums.
   
-### Business Goal 3: 
+### Business Goal 3: Leverage unsupervised models to divide the users into different clusters.
 
-In this section, the reddit comments which contain specific keywords relevant to soccer are selected. Then, this study create multiple numeric variables for indicating the frequency of these keywords within each piece of comment. K-means algorithm is performed based on this filtered data after vectorization and standardization. In order to choose the optimal value of k in this algorithm, two different evaluation methods have been utilized, including Silhouette method and elbow method.
+In this section, Reddit comments containing specific soccer-related keywords are selected. The study generates multiple numeric variables to quantify the frequency of these keywords within each comment. K-means algorithm is performed based on this filtered data after vectorization and standardization. In order to choose the optimal value of k in this algorithm, two different evaluation methods have been utilized, including Silhouette method and elbow method.
 
 ```{python, echo=FALSE}
 #| label: fig-polar4
@@ -134,7 +134,7 @@ with Image.open("../../data/plots/elbow_plot.png") as img1:
     display(img1)
 ```
 
-According to these two lineplots, Silhouette method suggests k=5 while elbow method suggests k=6. Taking into consideration of both methods, 5 is finally chosen as the optimal value for k.
+Based on the two line plots, the Silhouette method recommends k=5, whereas the elbow method suggests k=6. After considering both methods, k=5 is ultimately selected as the optimal value.
 
 ```{python, echo=FALSE}
 #| label: tbl-planets6
@@ -145,7 +145,7 @@ df = df.head()
 df
 ```
 
-Above table shows the distribution of each cluster, which shows obvious imbalance since the first cluster contains the large majority of comments. To further evaluate the result of clustering result, the average feature values are calculated for each cluster, and the headmap of the average values is shown below.
+The table above displays the distribution of each cluster, revealing a noticeable imbalance as the first cluster comprises the vast majority of comments. To further assess the clustering outcome, average feature values are computed for each cluster, and the heatmap depicting these averages is presented below.
 
 ```{python, echo=FALSE}
 #| label: fig-polar7
@@ -155,7 +155,7 @@ with Image.open("../../data/plots/cluster_feature_heatmap.png") as img1:
     display(img1)
 ```
 
-According to this heatmap, the remaining four clusters distinctly correlate with specific keywords: 'ligue 1', 'germany', 'europa', and 'ballon', suggesting that this clustering method successfully captures certain important features and categorizes the reddit comments based on some specific characteristics.
+This heatmap illustrates that certain clusters have significantly larger average values for specific features compared to others. Notably, the four smaller clusters respectively show the highest average values in 'ligue 1,' 'germany,' 'europa,' and 'ballon,' indicating a clear association between these clusters and these particular topics. As for the largest cluster, we can observe elevated values in 'var,' 'transfer,' 'world_cup,' and 'coach,' indicating the specific areas of interest for users within this cluster. This result demonstrates the effectiveness of the k-means clustering method in identifying key features and categorizing Reddit comments based on specific characteristics.
 
 ### Business Goal 4: Predict the outcome of matches based on the text and score of comments on the same day.
 
