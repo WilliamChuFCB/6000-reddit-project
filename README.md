@@ -32,7 +32,7 @@ Essentially, our project is an overview of the soccer-related digital footprint 
 6. Examine how soccer fans feel about the 2022 World Cup, and how their feelings evolve over time.
 
 ### ML:
-7. Predict the Popularity of Reddit Posts in Soccer Subreddits, Considering Multiple Factors
+7. Predict the Popularity of Reddit Posts in Soccer Subreddits, Considering Multiple Factors.
 8. Predict the outcome of upcoming games based on the sentiment or volume of the discussions before the games.
 9. Develop a machine learning-based solution to predict the controversiality of social media posts using their textual content and user engagement scores.
 10. Determine whether unsupervised models can be utilized to divide the users into different fan bases.
