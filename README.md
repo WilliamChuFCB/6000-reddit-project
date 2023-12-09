@@ -48,3 +48,4 @@ Essentially, our project is an overview of the soccer-related digital footprint 
 - docs: HTML files necessary for the website, and code in HTML format viewable to readers.
 - img: Images used on the index of the website.
 - model: Stored machine learning models.
+- qmd: qmd files for rendering the html.
